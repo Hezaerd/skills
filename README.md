@@ -1,48 +1,70 @@
 # skills
 
-Personal [Cursor Agent Skills](https://cursor.com/docs) used across projects.
+Agent skills for [Cursor](https://cursor.com) and other coding agents, installable via [skills.sh](https://skills.sh).
 
-## Install
+[![skills.sh](https://skills.sh/b/Hezaerd/skills)](https://skills.sh/Hezaerd/skills)
 
-Clone this repo into your Cursor personal skills directory:
+## Install with skills.sh
 
 ```bash
-git clone https://github.com/Hezaerd/skills.git ~/.cursor/skills
+# List skills in this repo
+npx skills add Hezaerd/skills --list
+
+# Install one skill globally for Cursor
+npx skills add Hezaerd/skills --skill conventional-commits -g -a cursor -y
+
+# Install everything in this repo for Cursor
+npx skills add Hezaerd/skills --skill '*' -g -a cursor -y
+
+# Install for every supported agent
+npx skills add Hezaerd/skills --all
 ```
 
-If `~/.cursor/skills` already exists, clone elsewhere and symlink individual skills:
+Direct path (also works):
+
+```bash
+npx skills add https://github.com/Hezaerd/skills/tree/main/skills/conventional-commits
+```
+
+Browse: [skills.sh/Hezaerd/skills](https://skills.sh/Hezaerd/skills)
+
+## Available skills
+
+| Skill | Description |
+| ----- | ----------- |
+| [`conventional-commits`](./skills/conventional-commits/) | Draft and validate Conventional Commit messages (commitlint-compatible). Agent-invoked on commit requests. |
+
+## Repo layout
+
+Skills follow the [Agent Skills](https://agentskills.io/) / [skills.sh](https://skills.sh) convention:
+
+```text
+skills/
+  conventional-commits/
+    SKILL.md
+```
+
+Each skill is a directory with a `SKILL.md` (YAML frontmatter + instructions). The CLI discovers any `**/SKILL.md` in the repo.
+
+## Cursor-only install (without skills CLI)
 
 ```bash
 git clone https://github.com/Hezaerd/skills.git ~/Developer/skills
 mkdir -p ~/.cursor/skills
-ln -s ~/Developer/skills/conventional-commits ~/.cursor/skills/conventional-commits
+ln -s ~/Developer/skills/skills/conventional-commits ~/.cursor/skills/conventional-commits
 ```
 
-Update later with:
-
-```bash
-cd ~/.cursor/skills && git pull
-# or, if you cloned to ~/Developer/skills:
-cd ~/Developer/skills && git pull
-```
-
-## Skills
-
-| Skill | When it runs |
-| ----- | ------------ |
-| [`conventional-commits`](./conventional-commits/) | Commit / commit-message requests (agent-invoked) |
-
-## Force auto-use on commit
+## Force auto-use on commit (Cursor User Rule)
 
 Skills are discovered from their `description`. To make commits reliably load
 `conventional-commits`, add a **User Rule** in Cursor Settings:
 
-> Whenever I ask to commit, create a commit, or write/fix a commit message:
+> Whenever I ask to commit, create a git commit, or write/fix a commit message:
 > read and follow the `conventional-commits` skill first, then run the normal
 > git commit safety protocol.
 
 ## Agent invocation
 
-These skills omit `disable-model-invocation`, so the agent can load them from
+These skills omit `disable-model-invocation`, so agents can load them from
 context (not only via `/skill-name`). Keep descriptions specific: include both
 **what** the skill does and **when** to use it.
