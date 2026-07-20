@@ -1,26 +1,51 @@
 # skills
 
-Agent skills for [Cursor](https://cursor.com) and other coding agents, installable via [skills.sh](https://skills.sh).
+Agent skills installable via [skills.sh](https://skills.sh). Works with Claude Code, Codex, Cursor, OpenCode, and other agents the CLI supports.
 
 [![skills.sh](https://skills.sh/b/Hezaerd/skills)](https://skills.sh/Hezaerd/skills)
 
-## Install with skills.sh
+## Quickstart
+
+1. Install from this repo:
 
 ```bash
-# List skills in this repo
+npx skills@latest add Hezaerd/skills
+```
+
+2. Pick the skills you want and which agents to install them for. **Include `/setup-hezaerd-skills`.**
+
+3. In your coding agent, run:
+
+```text
+/setup-hezaerd-skills
+```
+
+It will ask whether to add a Conventional commits section to `AGENTS.md` or `CLAUDE.md` so the agent uses that skill on commit.
+
+## Available skills
+
+| Skill | Description |
+| ----- | ----------- |
+| [`setup-hezaerd-skills`](./skills/setup-hezaerd-skills/) | Per-repo setup flow. Run once after install. |
+| [`conventional-commits`](./skills/conventional-commits/) | Draft and validate Conventional Commit messages (commitlint-compatible). |
+
+## Install options
+
+```bash
+# List skills
 npx skills add Hezaerd/skills --list
 
-# Install one skill globally for Cursor
-npx skills add Hezaerd/skills --skill conventional-commits -g -a cursor -y
+# Install specific skills
+npx skills add Hezaerd/skills --skill setup-hezaerd-skills --skill conventional-commits
 
-# Install everything in this repo for Cursor
-npx skills add Hezaerd/skills --skill '*' -g -a cursor -y
+# Global install for one agent (example: claude-code)
+npx skills add Hezaerd/skills --skill '*' -g -a claude-code -y
 
-# Install for every supported agent
+# All skills, all supported agents
 npx skills add Hezaerd/skills --all
 ```
 
-Direct path (also works):
+Direct path:
 
 ```bash
 npx skills add https://github.com/Hezaerd/skills/tree/main/skills/conventional-commits
@@ -28,43 +53,19 @@ npx skills add https://github.com/Hezaerd/skills/tree/main/skills/conventional-c
 
 Browse: [skills.sh/Hezaerd/skills](https://skills.sh/Hezaerd/skills)
 
-## Available skills
-
-| Skill | Description |
-| ----- | ----------- |
-| [`conventional-commits`](./skills/conventional-commits/) | Draft and validate Conventional Commit messages (commitlint-compatible). Agent-invoked on commit requests. |
-
 ## Repo layout
-
-Skills follow the [Agent Skills](https://agentskills.io/) / [skills.sh](https://skills.sh) convention:
 
 ```text
 skills/
+  setup-hezaerd-skills/
+    SKILL.md
   conventional-commits/
     SKILL.md
 ```
 
-Each skill is a directory with a `SKILL.md` (YAML frontmatter + instructions). The CLI discovers any `**/SKILL.md` in the repo.
-
-## Cursor-only install (without skills CLI)
-
-```bash
-git clone https://github.com/Hezaerd/skills.git ~/Developer/skills
-mkdir -p ~/.cursor/skills
-ln -s ~/Developer/skills/skills/conventional-commits ~/.cursor/skills/conventional-commits
-```
-
-## Force auto-use on commit (Cursor User Rule)
-
-Skills are discovered from their `description`. To make commits reliably load
-`conventional-commits`, add a **User Rule** in Cursor Settings:
-
-> Whenever I ask to commit, create a git commit, or write/fix a commit message:
-> read and follow the `conventional-commits` skill first, then run the normal
-> git commit safety protocol.
+Each skill is a directory with a `SKILL.md` ([Agent Skills](https://agentskills.io/) format). The CLI discovers any `**/SKILL.md` in the repo.
 
 ## Agent invocation
 
-These skills omit `disable-model-invocation`, so agents can load them from
-context (not only via `/skill-name`). Keep descriptions specific: include both
-**what** the skill does and **when** to use it.
+- `setup-hezaerd-skills` sets `disable-model-invocation: true` — run it explicitly (`/setup-hezaerd-skills`).
+- `conventional-commits` is agent-invokable: strong description triggers on commit / commit-message requests. The setup skill can also pin that habit in `AGENTS.md` / `CLAUDE.md`.
