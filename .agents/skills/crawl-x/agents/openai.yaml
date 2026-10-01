@@ -1,0 +1,3 @@
+interface:
+  display_name: "crawl-x"
+  short_description: "Read X posts as Markdown"

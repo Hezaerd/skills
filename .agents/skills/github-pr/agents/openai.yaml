@@ -1,0 +1,3 @@
+interface:
+  display_name: "github-pr"
+  short_description: "Open PRs with gh, with media"

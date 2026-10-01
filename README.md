@@ -6,6 +6,8 @@ Personal agent skills for Claude Code, Codex and other agents that read `SKILL.m
 | --- | --- |
 | `bro` | Restates the last message in plain language, with no jargon. |
 | `unslop` | Cuts AI tells from any writing. |
+| `crawl-x` | Reads Tweets, threads and profiles on X as Markdown. |
+| `github-pr` | Opens and updates PRs with `gh`, including image and video attachments. |
 
 ## Install
 
