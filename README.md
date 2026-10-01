@@ -8,6 +8,7 @@ Personal agent skills for Claude Code, Codex and other agents that read `SKILL.m
 | `unslop` | Cuts AI tells from any writing. |
 | `crawl-x` | Reads Tweets, threads and profiles on X as Markdown. |
 | `github-pr` | Opens and updates PRs with `gh`, including image and video attachments. |
+| `record-demo` | Records screenshots and video of a web app flow with headless Chromium, for PR demos. |
 
 ## Install
 
