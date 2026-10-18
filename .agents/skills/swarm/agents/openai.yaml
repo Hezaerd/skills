@@ -1,0 +1,5 @@
+interface:
+  display_name: "swarm"
+  short_description: "Fan out parallel workers and merge one report"
+policy:
+  allow_implicit_invocation: false
