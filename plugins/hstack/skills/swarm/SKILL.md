@@ -1,6 +1,6 @@
 ---
 name: swarm
-description: "Fan out N parallel workers, drain them, and return one report. Use for /swarm, 'swarm this', or parallel coverage, races, gauntlets, and exploration. Runs workers as native subagents or T3 Code delegated tasks, across providers and in isolated worktrees when needed. Run it with /swarm in Claude Code or $swarm in Codex."
+description: "Fan out N parallel workers, drain them, and return one report. Use for 'swarm this' or parallel coverage, races, gauntlets, and exploration. Runs workers as native subagents or T3 Code delegated tasks, across providers and in isolated worktrees when needed. Run it with /hstack:swarm in Claude Code or $hstack:swarm in Codex."
 disable-model-invocation: true
 metadata:
   short-description: Fan out parallel workers and merge one report

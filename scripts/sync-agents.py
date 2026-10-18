@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Install the agents in agents/*.md for Claude Code and Codex.
+"""Install the agents in plugins/hstack/agents/*.md for Codex.
 
 Each source file is a Claude Code subagent: YAML frontmatter, then the
-system prompt. Claude Code gets a copy. Codex gets a TOML file with the
-same name, description and prompt.
+system prompt. The hstack plugin ships them to Claude Code as is. Codex
+plugins can't ship agents yet, so this writes a TOML file with the same
+name, description and prompt.
 
 Frontmatter keys starting with `codex-` apply to Codex only:
 `codex-model` and `codex-reasoning-effort`. Claude Code keys such as
 `tools` and `model` are left out of the Codex file.
 
 Usage:
-  python scripts/sync-agents.py              # install for both
+  python scripts/sync-agents.py              # install into ~/.codex/agents
   python scripts/sync-agents.py --dry-run    # print what would be written
-  python scripts/sync-agents.py --claude-dir .claude/agents --codex-dir .codex/agents
+  python scripts/sync-agents.py --codex-dir .codex/agents
 """
 
 import argparse
@@ -21,7 +22,7 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SOURCE_DIR = REPO / "agents"
+SOURCE_DIR = REPO / "plugins" / "hstack" / "agents"
 CODEX_KEYS = {
     "codex-model": "model",
     "codex-reasoning-effort": "model_reasoning_effort",
@@ -57,11 +58,6 @@ def toml_string(value):
     return f'"{escaped}"'
 
 
-def claude_file(fields, body):
-    lines = [f"{k}: {v}" for k, v in fields.items() if not k.startswith("codex-")]
-    return "---\n" + "\n".join(lines) + "\n---\n\n" + body
-
-
 def codex_file(fields, body, source):
     out = [
         f"# Generated from {source} by scripts/sync-agents.py. Edit the source instead.",
@@ -89,7 +85,6 @@ def write(path, content, dry_run):
 def main():
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--claude-dir", type=Path, default=Path.home() / ".claude" / "agents")
     parser.add_argument("--codex-dir", type=Path, default=codex_home / "agents")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -101,7 +96,6 @@ def main():
         fields, body = parse(source)
         name = fields["name"]
         rel = source.relative_to(REPO).as_posix()
-        write(args.claude_dir / f"{name}.md", claude_file(fields, body), args.dry_run)
         write(args.codex_dir / f"{name}.toml", codex_file(fields, body, rel), args.dry_run)
 
 

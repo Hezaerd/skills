@@ -1,0 +1,15 @@
+{
+  "name": "hezaerd",
+  "description": "Hezaerd's agent plugins for Claude Code and Codex.",
+  "owner": {
+    "name": "Hezaerd"
+  },
+  "plugins": [
+    {
+      "name": "hstack",
+      "source": "./plugins/hstack",
+      "description": "Agent workflows for Claude Code and Codex inside T3 Code: explain code (how), dig up its history (why), block repeated mistakes (correct), fan out parallel workers (swarm), plus plain-language and anti-slop writing helpers.",
+      "version": "0.1.0"
+    }
+  ]
+}

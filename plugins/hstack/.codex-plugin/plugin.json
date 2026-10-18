@@ -1,0 +1,30 @@
+{
+  "name": "hstack",
+  "version": "0.1.0",
+  "description": "Agent workflows for Claude Code and Codex inside T3 Code: explain code (how), dig up its history (why), block repeated mistakes (correct), fan out parallel workers (swarm), plus plain-language and anti-slop writing helpers.",
+  "author": {
+    "name": "Hezaerd"
+  },
+  "homepage": "https://github.com/Hezaerd/skills",
+  "repository": "https://github.com/Hezaerd/skills",
+  "keywords": [
+    "skills",
+    "agents",
+    "t3code",
+    "codex",
+    "claude-code",
+    "pstack"
+  ],
+  "interface": {
+    "displayName": "hstack",
+    "shortDescription": "Agent workflows adapted from pstack",
+    "developerName": "Hezaerd",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ]
+  },
+  "skills": "./skills/"
+}
