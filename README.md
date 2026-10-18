@@ -45,13 +45,14 @@ codex plugin marketplace upgrade hezaerd && codex plugin add hstack@hezaerd
 
 ### Codex agents
 
-Codex plugins don't ship subagents yet, so `comment-sicko` needs the sync script. It writes a TOML version to `~/.codex/agents/` (or `$CODEX_HOME/agents/`):
+Codex plugins don't ship subagents yet, so copy `comment-sicko` into `~/.codex/agents/` (or `$CODEX_HOME/agents/`, or `.codex/agents/` in a project):
 
 ```bash
-python scripts/sync-agents.py
+mkdir -p ~/.codex/agents
+curl -fsSL https://raw.githubusercontent.com/Hezaerd/skills/master/plugins/hstack/codex/agents/comment-sicko.toml -o ~/.codex/agents/comment-sicko.toml
 ```
 
-Run it again after updating. Pass `--codex-dir` to install into a project, or `--dry-run` to see the output. Then "spawn the comment-sicko agent on this diff" in Codex.
+Copy it again after updating. Then "spawn the comment-sicko agent on this diff" in Codex.
 
 ### Other agents
 
@@ -72,7 +73,8 @@ plugins/hstack/
   skills/<name>/SKILL.md            shared by both tools
   skills/<name>/agents/openai.yaml  Codex-only skill metadata
   agents/*.md                       subagents in Claude Code's format
-scripts/                            sync, version check, release helpers
+  codex/agents/*.toml               the same subagents for Codex
+scripts/                            version and agent checks
 ```
 
 ## Develop
@@ -105,9 +107,10 @@ Before opening a PR:
 ```bash
 claude plugin validate .
 python scripts/check-versions.py
+python scripts/check-agents.py
 ```
 
-CI runs both on every PR.
+CI runs all three on every PR.
 
 ## Release
 

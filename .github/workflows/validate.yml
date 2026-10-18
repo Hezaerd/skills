@@ -20,4 +20,4 @@ jobs:
       - run: claude plugin validate .
       - run: claude plugin validate plugins/hstack
       - run: python scripts/check-versions.py
-      - run: python scripts/sync-agents.py --dry-run --codex-dir /tmp/codex-agents
+      - run: python scripts/check-agents.py
