@@ -1,7 +1,7 @@
 {
   "name": "hstack",
   "version": "0.1.0",
-  "description": "Agent workflows for Claude Code and Codex inside T3 Code: explain code (how), dig up its history (why), block repeated mistakes (correct), fan out parallel workers (swarm), route worker models (setup-hstack), plus plain-language and anti-slop writing helpers.",
+  "description": "Agent workflows for Claude Code and Codex inside T3 Code: explain code (how), dig up its history (why), block repeated mistakes (correct), fan out parallel workers (swarm), route worker models (setup-hstack), sharpen a task before starting it (sharpen), plus plain-language and anti-slop writing helpers.",
   "author": {
     "name": "Hezaerd"
   },

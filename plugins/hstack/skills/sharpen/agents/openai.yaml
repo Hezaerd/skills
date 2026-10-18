@@ -1,0 +1,5 @@
+interface:
+  display_name: "sharpen"
+  short_description: "Sharpen a task before starting it"
+policy:
+  allow_implicit_invocation: false
