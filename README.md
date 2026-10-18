@@ -117,4 +117,8 @@ CI runs both on every PR.
 
 ## Credits
 
-`how`, `why`, `correct`, `swarm` and `comment-sicko` are adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan, under the MIT license in [`LICENSE-pstack`](LICENSE-pstack). The changes swap Cursor-specific tools and model rules for Claude Code and Codex equivalents, and `swarm` also uses T3 Code's orchestration tools.
+Thanks to [Lauren Tan](https://github.com/poteto) for [pstack](https://github.com/cursor/plugins/tree/main/pstack), an amazing tool for working with agents.
+
+## License
+
+[MIT](LICENSE).
