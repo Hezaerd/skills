@@ -11,7 +11,7 @@ Explore the codebase to answer "how does X work?" questions. Produce architectur
 
 Read [delegation](../../docs/delegation.md) once per session before the first spawn. It picks each worker's model and transport, including other providers' models through T3 Code. If the file is missing, use native subagents on the parent provider.
 
-Every spawn is read-only. Its brief says "do not edit files". Explorers use the fast class; the explainer uses the strongest class. As native Claude Code subagents, explorers are `Explore` and the explainer is `general-purpose`. If you can't spawn subagents (for example, you are already a subagent), do every step yourself in order: explore each angle, then write the explanation.
+Every spawn is read-only. Its brief says "do not edit files". Explorers take the `how explorers` role and the explainer the `how explainer` role. As native Claude Code subagents, explorers are `Explore` and the explainer is `general-purpose`. If you can't spawn subagents (for example, you are already a subagent), do every step yourself in order: explore each angle, then write the explanation.
 
 ## 1. Assess complexity
 

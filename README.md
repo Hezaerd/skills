@@ -10,6 +10,7 @@
 | `how` | Explains how a part of the codebase works, with parallel explorers on big questions. |
 | `why` | Digs through git, PRs and connected MCPs for the reasons behind code, with cited confidence levels. |
 | `correct` | Finds mistakes agents keep repeating in a repo and blocks them with architecture, types, lints or tests. Runs only when you call it. |
+| `setup-hstack` | Chooses which provider, model and effort each worker role in `how`, `why` and `swarm` runs on, using the models T3 Code lists. Writes `~/.hstack/models.md`. Runs only when you call it. |
 | `swarm` | Fans out parallel workers (slices, races or both) and merges their results into one report. Uses T3 Code delegated tasks for cross-provider workers and isolated worktrees. Runs only when you call it. |
 
 | Agent | What it does |
@@ -72,7 +73,7 @@ plugins/hstack/
   .codex-plugin/plugin.json         Codex manifest
   skills/<name>/SKILL.md            shared by both tools
   skills/<name>/agents/openai.yaml  Codex-only skill metadata
-  docs/delegation.md                how skills spawn workers: native, T3 Code, or inline
+  docs/delegation.md                how skills spawn workers: models, native, T3 Code, or inline
   agents/*.md                       subagents in Claude Code's format
   codex/agents/*.toml               the same subagents for Codex
 scripts/                            version and agent checks

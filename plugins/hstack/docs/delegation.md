@@ -14,10 +14,40 @@ Without T3 Code, use only native subagents and inline work:
 
 ## Pick the models
 
-Skills ask for a model class: **fast** for mechanical or search work, **strongest** for judgment and synthesis. Models the user names always win, including models from another provider.
+Each spawn has a role from the table below. Resolve its model in this order, taking the first that applies:
 
-- With T3 Code: call `orchestrator_capabilities`. Use only providers with `canRunChildTask: true`, and copy model ids and option values exactly as listed. Fast is the cheapest listed model of the parent family at low or medium effort; strongest is the top listed model at high effort. If a requested model is missing, use the closest listed model of the same family and say so.
-- Without T3 Code: use the native tool's values. Claude Code's `Agent` takes `model` (`opus`, `sonnet`, `haiku`, `fable`) and `effort`. In Codex, spawn on the session model unless the user names another.
+1. a model the user names for this run, including one from another provider;
+2. the role's line in `~/.hstack/models.md`;
+3. the line for the role's class (`fast` or `strongest`) in that file;
+4. the default: the parent model, at `medium` effort for `fast` and `high` for `strongest`.
+
+Read `~/.hstack/models.md` fresh before each fan-out, so edits apply without a new session. If it doesn't exist, use the defaults. `/hstack:setup-hstack` writes it.
+
+| Role | Class |
+| --- | --- |
+| `how explorers` | fast |
+| `how explainer` | strongest |
+| `why investigators` | fast |
+| `why synthesizer` | strongest |
+| `swarm workers` | per slice: fast for mechanical slices, strongest for judgment-heavy ones |
+| `swarm race arms` | strongest; a list, one arm per entry |
+
+A role without its own line takes its class line. `swarm workers` has no class line: without its own line, swarm picks the class per slice.
+
+### Values
+
+Each value is one of:
+
+- `<providerInstanceId>/<model> <option>=<value> ...`, such as `codex/gpt-6-luna reasoningEffort=medium serviceTier=priority` or `claudeAgent/claude-opus-5-5 effort=high`. The ids and option values are the ones `orchestrator_capabilities` lists.
+- `inherit-parent`, optionally followed by `effort=<level>`: the parent model, with `<level>` set on the parent provider's reasoning option.
+- `fast` or `strongest`: whatever that class line resolves to.
+- For `swarm race arms`, a comma-separated list of the above.
+
+### Turning a value into a spawn
+
+- With T3 Code: call `orchestrator_capabilities` and check the value against it. Use only providers with `canRunChildTask: true`. If the model or an option value is missing, use the closest listed model of the same family, or the closest listed value, and say so. A model on another provider, or one the native tool can't select, goes through `delegate_task` with `target` set to the provider, model, and options.
+- A model on the parent's provider can run as a native subagent. Claude Code's `Agent` takes `model` (`opus`, `sonnet`, `haiku`, `fable`: the family in the model id) and `effort` (the `effort` option). Codex spawns on the session model; when the value names a different Codex model, use `delegate_task` if T3 Code is present, otherwise the session model.
+- Without T3 Code, a value on another provider runs on the parent model at the same effort level instead. Say so in your reply.
 
 ## Pick the transport
 

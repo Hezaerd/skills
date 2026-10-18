@@ -11,7 +11,7 @@ Investigate the motivation and intent behind code. The companion `how` skill ans
 
 Read [delegation](../../docs/delegation.md) once per session before the first spawn. It picks each worker's model and transport, including other providers' models through T3 Code. If the file is missing, use native subagents on the parent provider.
 
-Every investigator needs MCP access, so never use a read-only agent type that drops MCP servers (in Claude Code, use `general-purpose`, not `Explore`). Delegate an investigator to another provider only when that provider has the investigator's MCP server; otherwise keep it native. Each brief says "do not edit files, commit, or change external state". Investigators use the fast class; the synthesizer uses the strongest class. If you can't spawn subagents (for example, you are already a subagent), do every step yourself in order: search each evidence category in turn, then write the synthesis.
+Every investigator needs MCP access, so never use a read-only agent type that drops MCP servers (in Claude Code, use `general-purpose`, not `Explore`). Delegate an investigator to another provider only when that provider has the investigator's MCP server; otherwise keep it native. Each brief says "do not edit files, commit, or change external state". Investigators take the `why investigators` role and the synthesizer the `why synthesizer` role. If you can't spawn subagents (for example, you are already a subagent), do every step yourself in order: search each evidence category in turn, then write the synthesis.
 
 ## Operating Posture
 
