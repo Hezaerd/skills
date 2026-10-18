@@ -7,8 +7,6 @@ Personal agent skills for Claude Code, Codex and other agents that read `SKILL.m
 | `bro` | Restates the last message in plain language, with no jargon. |
 | `unslop` | Cuts AI tells from any writing. |
 | `crawl-x` | Reads Tweets, threads and profiles on X as Markdown. |
-| `github-pr` | Opens and updates PRs with `gh`, including image and video attachments. |
-| `record-demo` | Records screenshots and video of a web app flow with headless Chromium, for PR demos. |
 | `how` | Explains how a part of the codebase works, with parallel explorers on big questions. |
 | `why` | Digs through git, PRs and connected MCPs for the reasons behind code, with cited confidence levels. |
 | `correct` | Finds mistakes agents keep repeating in a repo and blocks them with architecture, types, lints or tests. Runs only when you call `/correct` or `$correct`. |
