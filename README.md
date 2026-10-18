@@ -56,7 +56,7 @@ Copy it again after updating. Then "spawn the comment-sicko agent on this diff" 
 
 ### Other agents
 
-Agents that read `SKILL.md` but not plugins can take the skills alone, without the `hstack:` prefix:
+Agents that read `SKILL.md` but not plugins can take the skills alone, without the `hstack:` prefix. This skips `docs/delegation.md`, so `how`, `why` and `swarm` run workers on the parent provider only:
 
 ```bash
 npx skills add hezaerd/skills -g
@@ -72,6 +72,7 @@ plugins/hstack/
   .codex-plugin/plugin.json         Codex manifest
   skills/<name>/SKILL.md            shared by both tools
   skills/<name>/agents/openai.yaml  Codex-only skill metadata
+  docs/delegation.md                how skills spawn workers: native, T3 Code, or inline
   agents/*.md                       subagents in Claude Code's format
   codex/agents/*.toml               the same subagents for Codex
 scripts/                            version and agent checks
