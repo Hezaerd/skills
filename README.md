@@ -11,6 +11,7 @@ Personal agent skills for Claude Code, Codex and other agents that read `SKILL.m
 | `record-demo` | Records screenshots and video of a web app flow with headless Chromium, for PR demos. |
 | `how` | Explains how a part of the codebase works, with parallel explorers on big questions. |
 | `why` | Digs through git, PRs and connected MCPs for the reasons behind code, with cited confidence levels. |
+| `correct` | Finds mistakes agents keep repeating in a repo and blocks them with architecture, types, lints or tests. Runs only when you call `/correct` or `$correct`. |
 
 ## Install
 
@@ -49,4 +50,4 @@ Call it by name: "use the comment-sicko agent on this diff" in Claude Code, or "
 
 ## Credits
 
-`how`, `why` and `comment-sicko` are adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan, under the MIT license in [`LICENSE-pstack`](LICENSE-pstack). The changes swap Cursor-specific tools and model rules for Claude Code and Codex equivalents.
+`how`, `why`, `correct` and `comment-sicko` are adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan, under the MIT license in [`LICENSE-pstack`](LICENSE-pstack). The changes swap Cursor-specific tools and model rules for Claude Code and Codex equivalents.
