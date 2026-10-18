@@ -1,9 +1,9 @@
 ---
 name: unslop
-description: Cut AI tells from any writing.
+description: "Cut AI tells from any writing. Run it with /hstack:unslop in Claude Code or $hstack:unslop in Codex."
 disable-model-invocation: true
 metadata:
-  short-description: Cut AI tells
+  short-description: Cut AI tells from any writing
 ---
 
 # Unslop

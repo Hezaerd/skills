@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-build-the-lever"
+  short_description: "Build the tool instead of working by hand"
+policy:
+  allow_implicit_invocation: false

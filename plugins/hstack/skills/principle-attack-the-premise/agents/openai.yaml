@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-attack-the-premise"
+  short_description: "Test the shared premise behind failed fixes"
+policy:
+  allow_implicit_invocation: false

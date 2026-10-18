@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-model-the-domain"
+  short_description: "Encode the domain in a data structure"
+policy:
+  allow_implicit_invocation: false

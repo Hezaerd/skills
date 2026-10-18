@@ -1,3 +1,5 @@
 interface:
   display_name: "why"
   short_description: "Find the history and reasons behind code"
+policy:
+  allow_implicit_invocation: false

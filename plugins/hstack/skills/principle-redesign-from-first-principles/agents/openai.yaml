@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-redesign-from-first-principles"
+  short_description: "Redesign as if the requirement were foundational"
+policy:
+  allow_implicit_invocation: false

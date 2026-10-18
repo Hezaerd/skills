@@ -1,0 +1,5 @@
+interface:
+  display_name: "interrogate"
+  short_description: "Review changes adversarially with several models"
+policy:
+  allow_implicit_invocation: false

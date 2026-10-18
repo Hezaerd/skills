@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-guard-the-context-window"
+  short_description: "Keep bulk output out of the main context"
+policy:
+  allow_implicit_invocation: false

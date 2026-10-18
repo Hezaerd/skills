@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-make-operations-idempotent"
+  short_description: "Make operations converge on repeat or crash"
+policy:
+  allow_implicit_invocation: false

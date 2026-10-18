@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-test-behavior-not-implementation"
+  short_description: "Assert observable behavior, not internals"
+policy:
+  allow_implicit_invocation: false

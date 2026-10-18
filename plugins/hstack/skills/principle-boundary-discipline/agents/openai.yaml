@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-boundary-discipline"
+  short_description: "Validate at boundaries, trust internals"
+policy:
+  allow_implicit_invocation: false

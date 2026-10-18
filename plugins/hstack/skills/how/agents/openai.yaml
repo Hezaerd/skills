@@ -1,3 +1,5 @@
 interface:
   display_name: "how"
   short_description: "Explain how a part of the codebase works"
+policy:
+  allow_implicit_invocation: false

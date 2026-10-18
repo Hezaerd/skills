@@ -1,5 +1,3 @@
 interface:
   display_name: "setup-hstack"
-  short_description: "Choose which models hstack workers run on"
-policy:
-  allow_implicit_invocation: false
+  short_description: "Choose which models hstack uses per role"

@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-sequence-verifiable-units"
+  short_description: "Sequence work into small, verifiable units"
+policy:
+  allow_implicit_invocation: false

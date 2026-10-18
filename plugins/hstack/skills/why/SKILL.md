@@ -1,17 +1,18 @@
 ---
 name: why
-description: "Use for 'why does X work this way', 'why we picked Y', design rationale, regressions, postmortems, or data-backed thresholds. Discovers available MCPs and queries each evidence category (source control, issue tracker, long-form docs, real-time chat, infrastructure observability, error tracking, product analytics warehouse) in parallel, then returns a cited read on decisions and tradeoffs. Use how for runtime behavior."
+description: "Use for 'why does X work this way', 'why we picked Y', design rationale, regressions, postmortems, or data-backed thresholds. Discovers available MCPs and queries each evidence category (source control, issue tracker, long-form docs, real-time chat, infrastructure observability, error tracking, product analytics warehouse) in parallel, then returns a cited read on decisions and tradeoffs. Use how for runtime behavior. Run it with /hstack:why in Claude Code or $hstack:why in Codex."
+disable-model-invocation: true
 metadata:
-  short-description: Find the history behind code
+  short-description: Find the history and reasons behind code
 ---
 
 # Why
 
 Investigate the motivation and intent behind code. The companion `how` skill answers what the code does and how it works. `why` answers what forces led to its shape.
 
-Read [delegation](../../docs/delegation.md) once per session before the first spawn. It picks each worker's model and transport, including other providers' models through T3 Code. If the file is missing, use native subagents on the parent provider.
+Each spawn below names a role line in the [model file](../../docs/delegation.md#pick-the-models) and a default. Read those lines from the model file before the first spawn. A missing line uses its default. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **hez-mode** skill.
 
-Every investigator needs MCP access, so never use a read-only agent type that drops MCP servers (in Claude Code, use `general-purpose`, not `Explore`). Delegate an investigator to another provider only when that provider has the investigator's MCP server; otherwise keep it native. Each brief says "do not edit files, commit, or change external state". Investigators take the `why investigators` role and the synthesizer the `why synthesizer` role. If you can't spawn subagents (for example, you are already a subagent), do every step yourself in order: search each evidence category in turn, then write the synthesis.
+Every spawn is a general-purpose subagent in the shared checkout, spawned per [delegation](../../docs/delegation.md). **Do not use `Explore`.** It drops MCP servers, which disables the MCP-backed investigators and the synthesizer's citation spot-checks. Investigators still shouldn't write anything, so each brief says "do not edit files, commit, or change external state". An investigator whose MCP server exists only in the parent's provider stays on the parent's provider.
 
 ## Operating Posture
 
@@ -47,7 +48,7 @@ Map each available MCP to one evidence category:
 
 Source control is always available through git and `gh`. For the other six, classify using the MCP name, server instructions, tool names, and resource descriptors. If an MCP could fit more than one category, choose the one matching its primary evidence. Record ambiguous cases in the coverage map.
 
-Spawn one investigator per category that has a matching MCP, all in a single message so they run concurrently, each owning exactly one tool or MCP. Don't ask one agent to cover multiple MCPs.
+Spawn one investigator per category that has a matching MCP, all in a single message so they run concurrently, each owning exactly one tool or MCP. Don't ask one agent to cover multiple MCPs. Model: the `why investigators` line, default `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`.
 
 Each investigator's prompt is `references/investigator-prompt.md` filled in, plus:
 - the category playbook `references/sources/<source>.md` for the selected MCP, adapted from the examples in `references/source-playbook.md`
@@ -77,7 +78,7 @@ If your scope assessment suggests a single-commit trivial target where the PR de
 
 ## Step 4. Synthesize
 
-Spawn one synthesizer. It gets:
+Spawn one synthesizer. Model: the `why synthesizer` line, default `claudeAgent/claude-opus-5-5 effort=xhigh`. It gets:
 1. The investigator findings, including any null results and any categories skipped with justification
 2. The code anchor
 3. The user's original question

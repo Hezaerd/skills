@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-foundational-thinking"
+  short_description: "Get data structures and sequencing right first"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-subtract-before-you-add"
+  short_description: "Remove complexity before building on it"
+policy:
+  allow_implicit_invocation: false

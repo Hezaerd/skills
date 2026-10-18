@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-explain-the-number"
+  short_description: "Explain a measured number before trusting it"
+policy:
+  allow_implicit_invocation: false

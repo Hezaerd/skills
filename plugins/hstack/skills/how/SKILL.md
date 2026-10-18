@@ -1,17 +1,16 @@
 ---
 name: how
-description: "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Use why for motivation."
+description: "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Use why for motivation. Run it with /hstack:how in Claude Code or $hstack:how in Codex."
+disable-model-invocation: true
 metadata:
-  short-description: Explain how code works
+  short-description: Explain how a part of the codebase works
 ---
 
 # How
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Read [delegation](../../docs/delegation.md) once per session before the first spawn. It picks each worker's model and transport, including other providers' models through T3 Code. If the file is missing, use native subagents on the parent provider.
-
-Every spawn is read-only. Its brief says "do not edit files". Explorers take the `how explorers` role and the explainer the `how explainer` role. As native Claude Code subagents, explorers are `Explore` and the explainer is `general-purpose`. If you can't spawn subagents (for example, you are already a subagent), do every step yourself in order: explore each angle, then write the explanation.
+Every spawn is a read-only general-purpose subagent in the shared checkout, spawned per [delegation](../../docs/delegation.md). Its brief says "do not edit files, commit, or change external state". Explorers use the `how explorer` line of the [model file](../../docs/delegation.md#pick-the-models) (default `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`), and every explainer uses the `how explainer` line (default `claudeAgent/claude-opus-5-5 effort=xhigh`). Read both lines from the model file before the first spawn. A missing line uses its default. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **hez-mode** skill.
 
 ## 1. Assess complexity
 

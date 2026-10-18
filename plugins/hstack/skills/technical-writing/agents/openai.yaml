@@ -1,0 +1,5 @@
+interface:
+  display_name: "technical-writing"
+  short_description: "Apply a layered technical-writing standard"
+policy:
+  allow_implicit_invocation: false

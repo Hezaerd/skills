@@ -8,7 +8,7 @@
     {
       "name": "hstack",
       "source": "./plugins/hstack",
-      "description": "Agent workflows for Claude Code and Codex inside T3 Code: explain code (how), dig up its history (why), block repeated mistakes (correct), fan out parallel workers (swarm), route worker models (setup-hstack), sharpen a task before starting it (sharpen), plus plain-language and anti-slop writing helpers.",
+      "description": "pstack for T3 Code. Rigorous agent workflows for Claude Code and Codex that you can parallelize with confidence, routed by hez-mode. Go deep first, and write less but higher quality code.",
       "version": "0.1.0"
     }
   ]

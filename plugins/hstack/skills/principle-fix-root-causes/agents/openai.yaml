@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-fix-root-causes"
+  short_description: "Fix the fault, not where it surfaced"
+policy:
+  allow_implicit_invocation: false

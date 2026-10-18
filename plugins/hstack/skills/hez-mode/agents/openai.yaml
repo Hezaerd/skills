@@ -1,0 +1,5 @@
+interface:
+  display_name: "hez-mode"
+  short_description: "Work in hez's concise, verified agent style"
+policy:
+  allow_implicit_invocation: false

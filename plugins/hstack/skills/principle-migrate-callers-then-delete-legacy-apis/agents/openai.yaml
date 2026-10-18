@@ -1,0 +1,5 @@
+interface:
+  display_name: "principle-migrate-callers-then-delete-legacy-apis"
+  short_description: "Migrate callers, then delete the legacy API"
+policy:
+  allow_implicit_invocation: false

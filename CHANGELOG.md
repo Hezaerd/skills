@@ -2,13 +2,24 @@
 
 ## Unreleased
 
-- `sharpen`: new skill from pstack ([cursor/plugins@79afd75](https://github.com/cursor/plugins/commit/79afd75)). Before starting a task, it asks how a top expert would approach it, what the user is really after, and whether the task is over- or underspecified, then does the work without handing back a rewritten prompt. Runs only when you call it.
-- `setup-hstack`: new skill that picks the provider, model and reasoning effort for each worker role (`how explorers`, `why synthesizer`, `swarm race arms`, ...) from the models T3 Code lists, under a budget, and writes them to `~/.hstack/models.md`.
-- `docs/delegation.md` resolves each spawn's model from that file: the role's line, then its `fast` or `strongest` class line, then the parent model. Models on another provider go through T3 Code delegated tasks.
-- `unslop`: synced with pstack ([cursor/plugins@bc697d0](https://github.com/cursor/plugins/commit/bc697d0)). It no longer runs on its own (`disable-model-invocation: true`), and "Must always apply." is gone from the description. The process steps are now one sentence, and several rules use tighter wording. No rules were added or removed.
-- `docs/delegation.md` holds the shared rules for spawning workers: detect T3 Code, pick models, pick native, T3 delegated or inline transport, and drain. `swarm`, `how` and `why` read it.
-- `swarm` falls back to native subagents when T3 Code is absent instead of calling `orchestrator_capabilities` unconditionally.
-- `how` and `why` can run workers on other providers through T3 Code delegated tasks.
+hstack now mirrors pstack 0.15.26 ([cursor/plugins@0b8e952](https://github.com/cursor/plugins/commit/0b8e952)), rewritten for T3 Code on Claude Code and Codex.
+
+- Every pstack skill except `make-bot-ui` is ported. `poteto-mode`, `poteto-agent` and `poteto-help` are now `hez-mode`, `hez-agent` and `hez-help`. `hez-mode` brings all 23 playbooks, the Bugbot triage reference, and its bun scripts (the PR watcher, plan checker, orchestration store and worktree audit). The other new skills are the 24 `principle-*` skills plus `architect`, `arena`, `automate-me`, `benchmark-checklist`, `blast-radius`, `create-formal-verification-skill`, `create-verification-skill`, `figure-it-out`, `in-your-own-words`, `interrogate`, `ketchup`, `maintain-verification-skill`, `no-comments`, `recall`, `reflect`, `sharpen`, `show-me-your-work`, `tdd`, `teach`, `technical-writing` and `typescript-best-practices`.
+- New `luau-best-practices` skill, hstack's own, next to `typescript-best-practices`. It covers `--!strict` with the new type solver, a typed composition root instead of a folder-scanning module loader, typed metatable classes (`typeof(setmetatable({} :: Data, X))` with an explicit `self`), tagged unions with `never` exhaustiveness, parsing remote arguments from `unknown` on the server, cleanup ownership, and the `task` library. Every example in `references/patterns.md` type-checks under luau-lsp's new solver.
+- `bro`, `unslop`, `how`, `why`, `swarm`, `correct` and `comment-sicko` are re-synced with pstack. As in pstack, every skill except `setup-hstack` (and hstack's own `crawl-x`) runs only when you call it. That now includes `how`, `why` and `bro`.
+- `setup-hstack` mirrors `setup-pstack`. It detects models through `orchestrator_capabilities`, applies a reasoning budget, and writes the same per-role model file to `~/.claude/rules/hstack-models.mdc` (Claude Code) and `~/.agents/rules/hstack-models.mdc` (Codex). It replaces `~/.hstack/models.md` and its `fast` and `strongest` classes. Roles and defaults follow pstack: code roles default to `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`, and judgment and prose to `claudeAgent/claude-opus-5-5 effort=xhigh`.
+- hstack assumes T3 Code. `docs/delegation.md` drops every fallback for running without it and holds the one set of spawn rules: read the model file, pick a native subagent or a `delegate_task` child, then drain. The new `docs/harness.md` maps skill text to Claude Code and Codex tools, paths and transcripts.
+- Cursor-only features map to T3 Code:
+  - cloud agents become delegated tasks in worktrees;
+  - Automations become `schedule_task`;
+  - `/loop` and the babysit watcher become `watch_pull_request`;
+  - agent transcripts become T3 threads;
+  - `control-ui` becomes the preview and device tools.
+
+  Origin, `deslop` and Cursor's built-in skills are dropped.
+- New `hez-agent` Codex agent at `plugins/hstack/codex/agents/hez-agent.toml`, next to `comment-sicko.toml`.
+- pstack's guide (`docs/guide/`) and benny automation pack are not ported.
+- New `scripts/check-skills.py`, run in CI. It fails when a skill's `agents/openai.yaml` drifts from its frontmatter, and when pstack or Cursor leftovers (`poteto`, Cursor paths, `Task`-tool fields, Cursor model slugs, no-T3 fallbacks) appear in the plugin. `--write` regenerates the YAML files.
 
 ## hstack 0.1.0
 

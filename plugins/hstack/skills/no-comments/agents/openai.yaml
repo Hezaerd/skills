@@ -1,0 +1,5 @@
+interface:
+  display_name: "no-comments"
+  short_description: "Remove comments and fix workarounds"
+policy:
+  allow_implicit_invocation: false

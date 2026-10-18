@@ -1,0 +1,5 @@
+interface:
+  display_name: "hez-help"
+  short_description: "Find the right hstack skill or playbook"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,5 @@
+interface:
+  display_name: "arena"
+  short_description: "Race candidates, pick a base, graft the best parts"
+policy:
+  allow_implicit_invocation: false

@@ -1,79 +1,72 @@
 ---
 name: setup-hstack
-description: "Choose which provider, model, and reasoning effort each hstack worker role runs on, and write them to ~/.hstack/models.md. Detects available models through T3 Code. Use for /hstack:setup-hstack, \"configure hstack models\", \"hstack budget\", or changing which models how, why, or swarm spawn. Run it with /hstack:setup-hstack in Claude Code or $hstack:setup-hstack in Codex."
-disable-model-invocation: true
+description: "Configure which models hstack uses per role and at what reasoning budget. Detects the models T3 Code can run and writes the hstack model file that overrides the skill defaults. Use for /hstack:setup-hstack, \"configure hstack models\", \"hstack budget\", or changing hstack's model choices."
 metadata:
-  short-description: Choose which models hstack workers run on
+  short-description: Choose which models hstack uses per role
 ---
 
 # Setup hstack
 
-Write `~/.hstack/models.md`, the per-role model choices that [delegation](../../docs/delegation.md#pick-the-models) reads before every fan-out. Read that section first: it defines the roles, their classes, the value format, and how a value becomes a spawn.
+Write the hstack model file, which sets hstack's model per role. Write the same content to both paths so either harness finds it: `~/.claude/rules/hstack-models.mdc` for Claude Code and `~/.agents/rules/hstack-models.mdc` for Codex. [Delegation](../../docs/delegation.md#pick-the-models) defines the value format and reads the file before every fan-out.
 
-## 1. Detect models
+## Steps
 
-Call `orchestrator_capabilities` from the `t3-code` MCP server (the name may carry a prefix such as `mcp__t3-code__`). In Claude Code, search deferred tools with `ToolSearch` for `t3-code` before you decide it is absent.
+### 1. Detect available models
 
-Keep only providers with `canRunChildTask: true`. For each model, note its id and its options with their values. The reasoning option is the one labeled "Reasoning" (`effort` for Claude, `reasoningEffort` for Codex). Record the parent provider from `inheritedProviderInstanceId`.
+Call `orchestrator_capabilities`. Keep only providers with `canRunChildTask: true`. For each model, note its id and its options with their values. The effort option is `effort` on Claude models and `reasoningEffort` on Codex models. The speed option is `serviceTier` on Codex models (`priority` is fast) and `fastMode` on Claude models that list it. Never write a model, option, or value you have not detected. The alias `inherit-parent` is always valid.
 
-Never write a model, option, or value you didn't detect. `inherit-parent` is always valid.
+### 2. Load current state
 
-Without T3 Code, you can't detect models on any provider. Say so, and offer only `inherit-parent` values in step 3. The budget still applies to them.
+The default role-to-model mapping is the file shape shown in step 5 below. If the model file exists at either path, read it and treat its `# budget` line and its role values as the current choices. When both exist and differ, use the one for the harness you are running in. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
 
-## 2. Load current state
+### 3. Budget, map, and confirm
 
-If `~/.hstack/models.md` exists, read it. Its `# budget` line and role lines are the current choices. Keep the `fast` and `strongest` class lines. Drop any other line whose role isn't in the delegation table, and keep the dropped lines to show in step 3.
-
-With no file, start from:
-
-```
-fast: inherit-parent effort=medium
-strongest: inherit-parent effort=high
-```
-
-## 3. Budget, map, confirm
-
-**(a) Ask for a budget.** Use `AskUserQuestion` in Claude Code; otherwise ask in plain text. Offer these labels, and name the current budget when the file records one. With no file, say that `medium` matches the defaults.
+**(a) Ask for a budget.** Ask the user with these four options and these exact labels, and name the current budget when the file records one. With no file, say that `large` matches the skill defaults.
 
 - `unlimited — max reasoning`
 - `large — xhigh reasoning`
 - `medium — high reasoning`
 - `small — medium reasoning`
 
-**(b) Apply it.** The ladder is `low` < `medium` < `high` < `xhigh` < `max`. The budget's level is the target. Set the reasoning option of each line:
+**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). `unlimited`, `large`, `medium`, and `small` set the effort option of every real value, panel entries included, to `max`, `xhigh`, `high`, or `medium`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the model does not list that level, use its highest listed level below the target, else mark the role as needing a choice. Never set `ultra`, `ultracode`, or `ultrathink` through the budget. They do more than deepen reasoning, so set them only when the user names them. Leave speed options as they are. `inherit-parent` does not change. So `unlimited` turns `claudeAgent/claude-opus-5-5 effort=xhigh` into `claudeAgent/claude-opus-5-5 effort=max`. `large` keeps both defaults. `small` turns them into `claudeAgent/claude-opus-5-5 effort=medium` and `codex/gpt-6.1-sol reasoningEffort=medium serviceTier=priority`.
 
-- `strongest`, its roles, every `swarm race arms` entry, and a `swarm workers` own line get the target.
-- `fast` and its roles get one step below the target. So `medium` puts fast at `medium` and strongest at `high`, the same as the defaults.
+**(c) Show the roles and confirm.** Show every role with its value, marking any value not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` (this role runs on the parent thread's model) as the options. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose provider differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm. Warn that `why investigators` need MCP servers, and a delegated child has only its own provider's MCP setup, so that provider needs the user's evidence sources configured too.
 
-If a model doesn't list the level, use its highest listed level below it. Never write `ultra`, `ultracode`, or `ultrathink` through the budget: they do more than deepen reasoning. Set them only when the user asks for them by name. Leave other options, such as `serviceTier` or `fastMode`, as they are.
+### 4. Validate
 
-**(c) Show and confirm.** Show a table with every role from the delegation table, its value, and where the value comes from (own line or class line). List the lines step 2 dropped. Ask whether to accept or change specific roles. Offer the detected models, `inherit-parent`, and a class name as choices.
+Every real value written must use a detected provider, model, option id, and option value. `inherit-parent` always passes. If a chosen value is not available, stop and ask again.
 
-- Suggest a cross-provider `swarm race arms` list when more than one provider can run child tasks: the top model of each, at the target.
-- A role set to its class name, or left unset, follows the class line. Write an own line only when it differs. Unset `swarm workers` follows `fast` or `strongest` per slice; an own line puts every slice on that value.
-- Warn when a `why investigators` value is on another provider: those investigators need MCP servers, and a delegated child only has its own provider's MCP setup.
+### 5. Write the file
 
-## 4. Validate
-
-Check every written value against step 1's catalog: provider, model, option ids, and option values. `inherit-parent` with `effort=<level>` on the ladder always passes. If a value fails, show why and ask again.
-
-## 5. Write the file
-
-Create `~/.hstack/` if needed. Overwrite `~/.hstack/models.md` completely so re-runs give the same result. Shape:
+Create `~/.claude/rules/` and `~/.agents/rules/` if needed. Write the same content to both files, with a `# budget` line holding the chosen label and its target effort, and one line per role, using the same labels the skills use. Overwrite each whole file so re-runs stay idempotent. Shape:
 
 ```
-# hstack model routing, read by docs/delegation.md before every fan-out.
-# One line per role. Delete a line to fall back to its class, then to the parent model.
-# Values: <providerInstanceId>/<model> <option>=<value> ... | inherit-parent [effort=<level>] | fast | strongest
-# budget: medium (high)
-fast: codex/gpt-6-luna reasoningEffort=medium
-strongest: claudeAgent/claude-opus-5-5 effort=high
-how explainer: claudeAgent/claude-fable-5-1 effort=high
-swarm race arms: claudeAgent/claude-opus-5-5 effort=high, codex/gpt-6.1-sol reasoningEffort=high
+# hstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# Values: <providerInstanceId>/<model> <option>=<value> ... or inherit-parent (the parent thread's model). Alias entries in a panel list still count toward its fan-out.
+# budget: large (xhigh)
+feature, refactoring: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+bug-fix: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+perf-issue: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+hillclimb: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+judgment and prose: claudeAgent/claude-opus-5-5 effort=xhigh
+hardest tasks: claudeAgent/claude-opus-5-5 effort=xhigh
+how explorer: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+how explainer: claudeAgent/claude-opus-5-5 effort=xhigh
+why investigators: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+why synthesizer: claudeAgent/claude-opus-5-5 effort=xhigh
+reflect tooling: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+reflect judgment, divergent, synthesizer: claudeAgent/claude-opus-5-5 effort=xhigh
+arena runners: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+arena cross-judge pool: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+swarm workers: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+architect runners: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
+interrogate reviewers: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 ```
 
-The model ids above are examples. Write the ones step 1 detected.
+### 6. Confirm
 
-## 6. Confirm
+Tell the user where both files are and that they apply from the next fan-out, with no new session needed. Re-running this skill updates them.
 
-Tell the user where the file is and that it applies from the next fan-out, with no new session needed. Re-running this skill updates it, and they can also edit the file by hand.
+### 7. Offer a verification skill (optional)
+
+Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with /hstack:create-verification-skill." On yes, run the **create-verification-skill** skill. On no, move on without pushing.

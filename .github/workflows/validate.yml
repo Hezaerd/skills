@@ -21,3 +21,4 @@ jobs:
       - run: claude plugin validate plugins/hstack
       - run: python scripts/check-versions.py
       - run: python scripts/check-agents.py
+      - run: python scripts/check-skills.py
