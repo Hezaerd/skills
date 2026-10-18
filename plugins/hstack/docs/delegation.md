@@ -46,8 +46,8 @@ Each value is one of:
 ### Turning a value into a spawn
 
 - With T3 Code: call `orchestrator_capabilities` and check the value against it. Use only providers with `canRunChildTask: true`. If the model or an option value is missing, use the closest listed model of the same family, or the closest listed value, and say so. A model on another provider, or one the native tool can't select, goes through `delegate_task` with `target` set to the provider, model, and options.
-- A model on the parent's provider can run as a native subagent. Claude Code's `Agent` takes `model` (`opus`, `sonnet`, `haiku`, `fable`: the family in the model id) and `effort` (the `effort` option). Codex spawns on the session model; when the value names a different Codex model, use `delegate_task` if T3 Code is present, otherwise the session model.
-- Without T3 Code, a value on another provider runs on the parent model at the same effort level instead. Say so in your reply.
+- A model on the parent's provider can run as a native subagent when the native tool can set every option in the value. Claude Code's `Agent` takes `model` (`opus`, `sonnet`, `haiku`, `fable`: the family in the model id) and `effort` (the `effort` option) and nothing else, so a value with `fastMode`, `serviceTier`, or a non-ladder effort such as `ultrathink` goes through `delegate_task`. Codex spawns on the session model; when the value names a different Codex model, use `delegate_task` if T3 Code is present, otherwise the session model.
+- Without T3 Code, a value on another provider runs on the parent model instead, keeping only its effort level when that level is on the ladder (`low`, `medium`, `high`, `xhigh`, `max`) and the parent model lists it; otherwise use the parent model's default effort. Without T3 Code, a value that needs `delegate_task` for an option also drops that option. Say so in your reply.
 
 ## Pick the transport
 

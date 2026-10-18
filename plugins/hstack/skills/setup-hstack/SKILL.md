@@ -22,7 +22,7 @@ Without T3 Code, you can't detect models on any provider. Say so, and offer only
 
 ## 2. Load current state
 
-If `~/.hstack/models.md` exists, read it. Its `# budget` line and role lines are the current choices. Drop any line whose role isn't in the delegation table, and keep the dropped lines to show in step 3.
+If `~/.hstack/models.md` exists, read it. Its `# budget` line and role lines are the current choices. Keep the `fast` and `strongest` class lines. Drop any other line whose role isn't in the delegation table, and keep the dropped lines to show in step 3.
 
 With no file, start from:
 
@@ -42,7 +42,7 @@ strongest: inherit-parent effort=high
 
 **(b) Apply it.** The ladder is `low` < `medium` < `high` < `xhigh` < `max`. The budget's level is the target. Set the reasoning option of each line:
 
-- `strongest`, its roles, `swarm workers`, and every `swarm race arms` entry get the target.
+- `strongest`, its roles, every `swarm race arms` entry, and a `swarm workers` own line get the target.
 - `fast` and its roles get one step below the target. So `medium` puts fast at `medium` and strongest at `high`, the same as the defaults.
 
 If a model doesn't list the level, use its highest listed level below it. Never write `ultra`, `ultracode`, or `ultrathink` through the budget: they do more than deepen reasoning. Set them only when the user asks for them by name. Leave other options, such as `serviceTier` or `fastMode`, as they are.
@@ -50,7 +50,7 @@ If a model doesn't list the level, use its highest listed level below it. Never 
 **(c) Show and confirm.** Show a table with every role from the delegation table, its value, and where the value comes from (own line or class line). List the lines step 2 dropped. Ask whether to accept or change specific roles. Offer the detected models, `inherit-parent`, and a class name as choices.
 
 - Suggest a cross-provider `swarm race arms` list when more than one provider can run child tasks: the top model of each, at the target.
-- A role set to its class name, or left unset, follows the class line. Write an own line only when it differs.
+- A role set to its class name, or left unset, follows the class line. Write an own line only when it differs. Unset `swarm workers` follows `fast` or `strongest` per slice; an own line puts every slice on that value.
 - Warn when a `why investigators` value is on another provider: those investigators need MCP servers, and a delegated child only has its own provider's MCP setup.
 
 ## 4. Validate
