@@ -1,3 +1,0 @@
-interface:
-  display_name: "record-demo"
-  short_description: "Record UI demos with headless Chromium"
