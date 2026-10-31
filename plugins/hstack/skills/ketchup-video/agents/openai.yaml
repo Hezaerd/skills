@@ -1,0 +1,5 @@
+interface:
+  display_name: "ketchup-video"
+  short_description: "Catch up on this chat with a subtitled video"
+policy:
+  allow_implicit_invocation: false
