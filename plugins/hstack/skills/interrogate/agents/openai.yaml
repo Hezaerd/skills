@@ -1,5 +1,5 @@
 interface:
   display_name: "interrogate"
-  short_description: "Review changes adversarially with several models"
+  short_description: "Break a change with adversaries, keep proven findings"
 policy:
   allow_implicit_invocation: false

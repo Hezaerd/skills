@@ -30,7 +30,7 @@ hstack runs in T3 Code on Claude Code or Codex. Skills use neutral names. This f
 | User skills | `~/.claude/skills/` | `~/.agents/skills/` |
 | Installed plugins | `~/.claude/plugins/`, manifest `.claude-plugin/plugin.json` | `~/.codex/plugins/`, manifest `.codex-plugin/plugin.json` |
 | Custom agents | the plugin's `agents/` | `~/.codex/agents/*.toml` |
-| hstack state (orchestration stores, automation state, logs) | `~/.hstack/` | `~/.hstack/` |
+| hstack state (Orchestrate notes, decision trails, plans) | `~/.hstack/` | `~/.hstack/` |
 
 A skill that writes a new skill writes `SKILL.md` and, for Codex, `agents/openai.yaml` beside it: `interface.display_name`, `interface.short_description`, and `policy.allow_implicit_invocation: false` when the skill has `disable-model-invocation: true`.
 
