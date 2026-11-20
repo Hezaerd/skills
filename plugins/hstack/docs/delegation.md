@@ -16,7 +16,7 @@ A value is one of:
 
 - `<providerInstanceId>/<model> <option>=<value> ...`, such as `codex/gpt-6.1-sol reasoningEffort=xhigh` or `claudeAgent/claude-opus-5-5 effort=xhigh`. The ids and option values are the ones `orchestrator_capabilities` lists.
 - `inherit-parent`: the parent thread's model (`inheritedProviderInstanceId` and `inheritedModel`).
-- For a panel role (`arena runners`, `arena cross-judge pool`, `architect runners`, `interrogate reviewers`), a comma-separated list of the above. One worker runs per entry, `inherit-parent` entries included, so the list length sets the count.
+- For a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`), a comma-separated list of the above. One worker runs per entry, `inherit-parent` entries included, so the list length sets the count.
 
 The effort option is `effort` on Claude models and `reasoningEffort` on Codex models, on the ladder `low` < `medium` < `high` < `xhigh` < `max`. Fast speed is `serviceTier=priority` on Codex models and `fastMode=true` on Claude models that list it. Standard speed drops that option. A provider is a model family: a panel stays diverse when its entries span providers.
 
@@ -35,7 +35,7 @@ Use the lightest transport that can run the worker.
   - `isolation: "worktree"` for a writer that could collide with a sibling, omitted for the shared checkout;
   - a `clientRequestId` that stays the same across retries of that spawn, such as `<skill>-<slug>-<worker>-r1`.
 
-  Leave `runtimeMode` unset; a narrower mode stalls the child on approvals nobody can give. State read-only limits in the brief. A child runs with its own provider's MCP configuration, so a worker that needs an MCP server only the parent's provider has stays on the parent's provider. A delegated task has no agent type: for a `hez-agent` worker, the brief's first line tells it to read the hez-mode `SKILL.md` at its absolute path in full before any work.
+  Leave `runtimeMode` unset; a narrower mode stalls the child on approvals nobody can give. State read-only limits in the brief. A child runs with its own provider's MCP configuration, so a worker that needs an MCP server only the parent's provider has stays on the parent's provider. A delegated task has no agent type: for a `hez-agent` worker, the brief tells it, right after the `worker.md` line, to read the hez-mode `SKILL.md` at its absolute path in full before any work.
 
 Never use `t3_thread_launch` or `create_threads` for workers. Those make top-level threads, not children of this one. Use them only when the user asks for separate threads.
 

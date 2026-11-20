@@ -64,7 +64,7 @@ two steps:
 
 new here, stuck, or unsure which skill fits? ask [`/hstack:hez-help`](./plugins/hstack/skills/hez-help/SKILL.md).
 
-that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box the mode splits work by model strength. code delegates (feature, refactoring, bug fix, perf, hillclimb) go to `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`, while the hardest changes, prose, and judgment go to `claudeAgent/claude-opus-5-5 effort=xhigh`. the default panel is opus 5.5 / gpt-6.1-sol. [`/hstack:setup-hstack`](./plugins/hstack/skills/setup-hstack/SKILL.md) changes any of it.
+that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box the mode splits work by model strength. code delegates (feature, refactoring, bug fix, perf, hillclimb) go to `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`, while prose and judgment go to `claudeAgent/claude-opus-5-5 effort=xhigh`. no role runs above xhigh. the default panel is opus 5.5 / gpt-6.1-sol. [`/hstack:setup-hstack`](./plugins/hstack/skills/setup-hstack/SKILL.md) changes any of it.
 
 ## usage
 
@@ -74,7 +74,7 @@ type `/hstack:hez-mode` at the start of the message, before your task, so the ha
 
 ### just use [`/hstack:hez-mode`](./plugins/hstack/skills/hez-mode/SKILL.md)
 
-this skill is the main shortcut. i use it whenever i need the agent to do rigorous engineering work. it comes with twenty-three playbooks:
+this skill is the main shortcut. i use it whenever i need the agent to do rigorous engineering work. it comes with twenty-two playbooks:
 
 ```
 /hstack:hez-mode this pr has a subtle bug where the scroll drifts every 750ms even when idle.
@@ -87,7 +87,7 @@ by morning.
 ```
 
 <details>
-<summary>the twenty-three playbooks</summary>
+<summary>the twenty-two playbooks</summary>
 
 | playbook | for |
 |---|---|
@@ -106,7 +106,6 @@ by morning.
 | [babysit](./plugins/hstack/skills/hez-mode/playbooks/babysit.md) | drive a pr or a stack to merge-ready: conflicts, review threads, ci. |
 | [shipping](./plugins/hstack/skills/hez-mode/playbooks/shipping.md) | independently verify a green stack, then land the contiguous verified run bottom-up through github. |
 | [autonomous run](./plugins/hstack/skills/hez-mode/playbooks/autonomous-run.md) | drive a long task to completion without stopping. |
-| [orchestrate](./plugins/hstack/skills/hez-mode/playbooks/orchestrate.md) | a standing project handed to one coordinator chat: multi-day, many stacked prs, fleets of subagents. |
 | [autopilot-full](./plugins/hstack/skills/hez-mode/playbooks/autopilot-full.md) | run independent prs to merged with one owner per pr. a swarm verifies each code-ready head, and every later change to the patch gets a fresh check. |
 | [autopilot-stack](./plugins/hstack/skills/hez-mode/playbooks/autopilot-stack.md) | autopilot-full without the merge. build and verify prs for the operator to review and land, stacking a pr only on a pr it builds on. |
 | [session pickup](./plugins/hstack/skills/hez-mode/playbooks/session-pickup.md) | resume or take over a prior agent's in-flight work. |
@@ -121,7 +120,7 @@ by morning.
 
 when invoked it:
 
-1. matches your task to a [playbook](./plugins/hstack/skills/hez-mode/playbooks/) and opens a todo list whose first items are its steps, copied in verbatim.
+1. matches your task to a [playbook](./plugins/hstack/skills/hez-mode/playbooks/) and copies its steps into a todo list first.
 2. routes to the other skills as the steps fire.
 3. writes unslopped replies framed for the consumer and the maintainer.
 
@@ -133,7 +132,7 @@ the skill loads with the message you type it in and stays in the chat's context,
 
 ## skills
 
-[`/hstack:hez-mode`](./plugins/hstack/skills/hez-mode/SKILL.md) runs most of these for you when a step needs them (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `tdd`, and the principles). every skill except `setup-hstack` and `crawl-x` runs only when you call it. the table below is for when you want one directly:
+[`/hstack:hez-mode`](./plugins/hstack/skills/hez-mode/SKILL.md) runs most of these for you when a step needs them (`why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `tdd`, and the principles). every skill except `setup-hstack` and `crawl-x` runs only when you call it. the table below is for when you want one directly:
 
 ```
 /hstack:how do we cancel runs? do we have an n+1 when we look up every run to cancel?
@@ -151,9 +150,9 @@ the skill loads with the message you type it in and stays in the chat's context,
 | [`/hstack:hez-mode`](./plugins/hstack/skills/hez-mode/SKILL.md) | default entry point for any non-trivial task. |
 | [`/hstack:hez-help`](./plugins/hstack/skills/hez-help/SKILL.md) | you're new to hstack, or unsure which skill, playbook, or principle fits. finds out what you're trying to do, answers that part, and hands you a prompt to type. runs only when you type `/hstack:hez-help`. |
 | [`/hstack:in-your-own-words`](./plugins/hstack/skills/in-your-own-words/SKILL.md) | you want the agent to play back your goal and the problem before it starts. runs only when you type `/hstack:in-your-own-words`. |
-| [`/hstack:sharpen`](./plugins/hstack/skills/sharpen/SKILL.md) | you want a prompt made deeper, not bigger, before you send it: what a top professional would do that you didn't ask for, the raw material they'd start from, their methods and tools, and an outside check that the result is right. hands back the rewritten prompt and leaves your choices open. doesn't do the task. runs only when you type `/hstack:sharpen`. |
+| [`/hstack:sharpen`](./plugins/hstack/skills/sharpen/SKILL.md) | you want a prompt made deeper, not bigger, before you send it: what a top professional would do that you didn't ask for, the raw material they'd start from, their methods and tools, and an outside check that the result is right. hands back the rewritten prompt, which asks the agent to prototype any choice an experiment can settle and leaves product and preference choices to you. doesn't do the task. runs only when you type `/hstack:sharpen`. |
 | [`/hstack:how`](./plugins/hstack/skills/how/SKILL.md) | you want a walkthrough of how a subsystem works. |
-| [`/hstack:why`](./plugins/hstack/skills/why/SKILL.md) | you want to know why something was built this way. discovers available MCPs at run time and queries each evidence category in parallel (source control, issue tracker, long-form docs, real-time chat, infra observability, error tracking, analytics warehouse). |
+| [`/hstack:why`](./plugins/hstack/skills/why/SKILL.md) | you want to know why something was built this way. answers from the record, not the code: the commits and pr discussions that introduced it and each later change, and other sources when that trail is thin. cites what the authors wrote, marks its own inferences, and says what the record does not answer. |
 | [`/hstack:recall`](./plugins/hstack/skills/recall/SKILL.md) | you're starting or resuming work and want your recent context on a topic rebuilt from your own t3 code threads and the shared record, handed back as a tight current-state brief. |
 | [`/hstack:ketchup`](./plugins/hstack/skills/ketchup/SKILL.md) | you want what changed in this chat since your last message, in plain words and small visuals, with every item waiting on you listed and decidable from the reply alone, even when that makes the reply long. |
 | [`/hstack:ketchup-video`](./plugins/hstack/skills/ketchup-video/SKILL.md) | you want the `/hstack:ketchup` catch-up as a short subtitled video of slides, with the calls waiting on you as text under it. |
