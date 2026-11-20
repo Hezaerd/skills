@@ -49,7 +49,7 @@ hstack is built for T3 Code running Claude Code or Codex. Its skills use the Age
 
 ## Start a task with `/hstack:hez-mode`
 
-`/hstack:hez-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one.
+`/hstack:hez-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one.
 
 `/hstack:hez-mode` attaches the skill to one message. It fades as the chat moves on, so start each new task with `/hstack:hez-mode`.
 
@@ -102,16 +102,15 @@ Close calls:
 
 - `/hstack:how` explains what the code does. `/hstack:why` explains the reasons. `/hstack:teach` runs one or both and explains the result plainly.
 - `/hstack:arena` gives every worker the same brief and merges the best parts. `/hstack:swarm` splits work into slices or a race and returns one report.
-- `/hstack:architect` implements right after it settles the design. Add "with checkpoint" to review the design before it writes code.
 - `/hstack:interrogate` reviews the diff. `/hstack:blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe.
 - `/hstack:recall` rebuilds context across recent chats. `/hstack:ketchup` covers only this chat since the user's last message. Resuming one specific chat or branch is the Session pickup playbook.
-- `/hstack:figure-it-out` designs one rigorous run. The Orchestrate playbook runs a program that spans days and many PRs. The Autonomous run playbook drives one task to a finish condition.
+- `/hstack:figure-it-out` designs one rigorous run. The Autonomous run playbook drives one task to a finish condition.
 
 Not in hstack:
 
 - pstack's code-cleanup and app-control skills from Cursor's team kit don't ship. Skills drive UIs with T3 Code's preview and device tools, and CLIs in a terminal. The [README](https://github.com/Hezaerd/skills#not-shipped-here) lists them.
 - `skill-creator` comes with the harness, not with hstack.
-- hstack has no `/hstack:orchestrate` skill. Orchestrate is a `/hstack:hez-mode` playbook. If the slash menu shows `/orchestrate`, another plugin provides it.
+- hstack has no `/hstack:orchestrate` skill. If the slash menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles
 
@@ -124,7 +123,7 @@ Playbooks are step lists inside `/hstack:hez-mode`, not skills, so they have no 
 - "full autopilot on this queue" runs Autopilot-full. "autopilot, don't merge" runs Autopilot-stack.
 - "run the eval playbook" runs Eval.
 
-The Playbooks section of [`hez-mode`](../hez-mode/SKILL.md) lists every playbook and when it applies.
+The Playbooks section of [`hez-mode`](../hez-mode/SKILL.md) lists every playbook.
 
 hstack has no planning skill. T3 Code's plan mode works alongside it. For work that spans phases or stacked PRs, asking `/hstack:hez-mode` for a plan runs the [Multi-phase plan playbook](../hez-mode/playbooks/multi-phase-plan.md), which writes the plan and doesn't implement it. For a design question, the Prototype playbook or `/hstack:architect` settles it in code first.
 

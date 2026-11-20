@@ -2,7 +2,21 @@
 
 ## Unreleased
 
-hstack now mirrors pstack 0.15.36 ([cursor/plugins@c742dd6](https://github.com/cursor/plugins/commit/c742dd6)), rewritten for T3 Code on Claude Code and Codex.
+hstack now mirrors pstack 0.15.46 ([cursor/plugins@0b46ec3](https://github.com/cursor/plugins/commit/0b46ec3)), rewritten for T3 Code on Claude Code and Codex.
+
+### Since pstack 0.15.36
+
+- Skill texts are much shorter. `hez-mode` drops from 151 lines to 111: its trigger list is eleven short lines, Writing the reply is one paragraph, and the Comments section is gone. 14 `principle-*` skills, `unslop` and `technical-writing` keep each rule in a shorter body, and `unslop` keeps its rule numbers.
+- `how`, `why`, `reflect` and `architect` are each one short file. `how` starts one read-only subagent. `why` answers from the commits and PR discussions behind the code. `reflect` reads the thread itself, with no reviewers, and waits for approval before any edit. `architect` sketches two shapes and picks one, and sends a large or contested design to `arena`. Their `references/` folders are deleted, 21 files in all. `recall` starts its own investigator for each source.
+- `hez-mode` no longer runs `how`. The playbooks tell the agent to trace the code itself.
+- The Orchestrate playbook is deleted, which leaves twenty-two. Program-scale work goes to `figure-it-out`.
+- The Opening a PR, Babysit and Multi-phase plan playbooks are cut to a few rules each. `check-plan.mjs` and its test are deleted.
+- New `hez-mode/worker.md` holds the operator's rules for every started agent. The first line of each subagent brief points at it.
+- Model roles follow the cuts. `hardest tasks`, `how explorer`, `how explainer`, `why investigators`, `why synthesizer`, `reflect tooling`, `reflect judgment, divergent, synthesizer` and `architect runners` are retired, and `setup-hstack` drops their lines on its next run. No role runs above `xhigh`, so the `unlimited` budget is gone and an old `unlimited` file becomes `large`. Trivial mechanical edits read `swarm workers`.
+- A code role moves to the `judgment and prose` model only when the user names it or after two runs of the same brief on the role's own model fail their check. This is hstack's form of pstack's Fable 5.2 exception, and it replaces `hardest tasks`.
+- hstack keeps its own defaults: Codex for code, Opus 5.5 for prose and judgment, and an Opus 5.5 and Codex panel. pstack's move to Opus-first routing, its Fable 5.2 exception and its Gemini 4 Neon panel seat are not ported.
+- `statechart` now takes pstack's own native Windows support, so hstack's Windows patches to `run.ts` and `statechart.ts` are gone and the scripts match pstack's. It also reports the spec's line and column when SANY cannot read it, and draws an arrow into a parent state to the parent's border. All 33 corpus specs give the committed chart and report on Windows with TLC 1.7.4. The CLI tests still need a POSIX system.
+- `sharpen`'s rewritten prompt asks the agent to prototype any choice an experiment can settle.
 
 ### Since pstack 0.15.26
 

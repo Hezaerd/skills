@@ -17,24 +17,23 @@ Call `orchestrator_capabilities`. Keep only providers with `canRunChildTask: tru
 
 ### 2. Load current state
 
-The default role-to-model mapping is the file shape shown in step 5 below. If the model file exists at either path, read it and treat its `# budget` line and its role values as the current choices. When both exist and differ, use the one for the harness you are running in. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
+The default role-to-model mapping is the file shape shown in step 5 below. If the model file exists at either path, read it and treat its `# budget` line and its role values as the current choices. When both exist and differ, use the one for the harness you are running in. Otherwise start from those defaults. A line whose role is not in step 5, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it. A `# budget: unlimited` line becomes `large`, and an effort above `xhigh` becomes `xhigh`, because no role runs above `xhigh`. Tell the user which values you replaced.
 
 ### 3. Budget, map, and confirm
 
-**(a) Ask for a budget.** Ask the user with these four options and these exact labels, and name the current budget when the file records one. With no file, say that `large` matches the skill defaults.
+**(a) Ask for a budget.** Ask the user with these three options and these exact labels, and name the current budget when the file records one. With no file, say that `large` matches the skill defaults.
 
-- `unlimited — max reasoning`
 - `large — xhigh reasoning`
 - `medium — high reasoning`
 - `small — medium reasoning`
 
-**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). `unlimited`, `large`, `medium`, and `small` set the effort option of every real value, panel entries included, to `max`, `xhigh`, `high`, or `medium`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the model does not list that level, use its highest listed level below the target, else mark the role as needing a choice. Never set `ultra`, `ultracode`, or `ultrathink` through the budget. They do more than deepen reasoning, so set them only when the user names them. Leave speed options as they are. `inherit-parent` does not change. So `unlimited` turns `claudeAgent/claude-opus-5-5 effort=xhigh` into `claudeAgent/claude-opus-5-5 effort=max`. `large` keeps both defaults. `small` turns them into `claudeAgent/claude-opus-5-5 effort=medium` and `codex/gpt-6.1-sol reasoningEffort=medium serviceTier=priority`.
+**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). `large`, `medium`, and `small` set the effort option of every real value, panel entries included, to `xhigh`, `high`, or `medium`, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`. If the model does not list that level, use its highest listed level below the target, else mark the role as needing a choice. Never set `max`, `ultra`, `ultracode`, or `ultrathink` through the budget. Leave speed options as they are. `inherit-parent` does not change. So `large` keeps both defaults, and `small` turns them into `claudeAgent/claude-opus-5-5 effort=medium` and `codex/gpt-6.1-sol reasoningEffort=medium serviceTier=priority`.
 
-**(c) Show the roles and confirm.** Show every role with its value, marking any value not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` (this role runs on the parent thread's model) as the options. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values on a provider other than the parent's, in list order, so order it by preference. An `inherit-parent` value never judges. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm. Warn that `why investigators` need MCP servers, and a delegated child has only its own provider's MCP setup, so that provider needs the user's evidence sources configured too.
+**(c) Show the roles and confirm.** Show every role with its value, marking any value not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` (this role runs on the parent thread's model) as the options. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values on a provider other than the parent's, in list order, so order it by preference. An `inherit-parent` value never judges. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
 
 ### 4. Validate
 
-Every real value written must use a detected provider, model, option id, and option value. `inherit-parent` always passes. If a chosen value is not available, stop and ask again.
+Every real value written must use a detected provider, model, option id, and option value, with its effort at `xhigh` or below. `inherit-parent` always passes. If a chosen value is not available, stop and ask again.
 
 ### 5. Write the file
 
@@ -49,17 +48,9 @@ bug-fix: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 perf-issue: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 hillclimb: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 judgment and prose: claudeAgent/claude-opus-5-5 effort=xhigh
-hardest tasks: claudeAgent/claude-opus-5-5 effort=xhigh
-how explorer: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
-how explainer: claudeAgent/claude-opus-5-5 effort=xhigh
-why investigators: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
-why synthesizer: claudeAgent/claude-opus-5-5 effort=xhigh
-reflect tooling: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
-reflect judgment, divergent, synthesizer: claudeAgent/claude-opus-5-5 effort=xhigh
 arena runners: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 arena cross-judge pool: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 swarm workers: codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
-architect runners: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 interrogate reviewers: claudeAgent/claude-opus-5-5 effort=xhigh, codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority
 ```
 
