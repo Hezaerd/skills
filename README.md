@@ -64,7 +64,7 @@ two steps:
 
 new here, stuck, or unsure which skill fits? ask [`/hstack:hez-help`](./plugins/hstack/skills/hez-help/SKILL.md).
 
-that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box the mode splits work by model strength. code delegates (feature, refactoring, bug fix, perf, hillclimb) go to `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`, while prose and judgment go to `claudeAgent/claude-opus-5-5 effort=xhigh`. no role runs above xhigh. the default panel is opus 5.5 / gpt-6.1-sol. [`/hstack:setup-hstack`](./plugins/hstack/skills/setup-hstack/SKILL.md) changes any of it.
+that's it. the other skills are situational, and the mode skill uses them for you as needed. out of the box the mode splits work by model strength. code delegates (feature, refactoring, bug fix, perf, hillclimb) go to `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`, while prose and judgment go to `claudeAgent/claude-opus-5-5 effort=xhigh`. no role runs above xhigh. a code delegate moves to the judgment model only when you name it or after two runs of the same brief fail. the default panel is opus 5.5 / gpt-6.1-sol. [`/hstack:setup-hstack`](./plugins/hstack/skills/setup-hstack/SKILL.md) changes any of it.
 
 ## usage
 

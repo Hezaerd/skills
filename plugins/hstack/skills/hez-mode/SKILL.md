@@ -94,6 +94,8 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 - Trivial mechanical edits, swarm workers, and verification: `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`.
 - Diverse review and design panels: one runner each on `claudeAgent/claude-opus-5-5 effort=xhigh` and `codex/gpt-6.1-sol reasoningEffort=xhigh serviceTier=priority`.
 
+**Escalation is an exception.** A code role moves to the `judgment and prose` model only when the user named that model for this task or two runs of the same brief on the role's own model failed their check. Say which. Difficulty alone never qualifies.
+
 **Match the model to the job.** Start from the role's line or default, keep its provider, and set the level the job needs. The `/hstack:setup-hstack` budget sets each role's starting level. The ladder is `low` < `medium` < `high` < `xhigh`. Panel seats keep their listed level. Raise any other role one step, up to `xhigh`, for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. No role runs above `xhigh`. Use the fast option (`serviceTier=priority` on Codex, `fastMode=true` on Claude models that list it) only when CI or trunk is red or a person is blocked on the result right now. Verification always runs on the `swarm workers` model and speed. If `orchestrator_capabilities` doesn't list a value, never pass it. Fall back to the role's line or default, then the calling skill's fallback, then the closest listed model of the same provider, then the parent model. Say so.
 
 You own every subagent's work. Review the diff and write your own summary. A second opinion is the same prompt on another provider's model.
