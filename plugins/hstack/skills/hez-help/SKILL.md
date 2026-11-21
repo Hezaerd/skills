@@ -116,7 +116,7 @@ Not in hstack:
 
 Playbooks are step lists inside `/hstack:hez-mode`, not skills, so they have no slash command. Inside `/hstack:hez-mode`, describing the task picks one, and these phrases name one directly:
 
-- "babysit this pr" or "check on pr 123" runs Babysit. It drives the PR to merge-ready and stops there. It doesn't merge unless the user asks to merge, land, or ship.
+- "babysit this pr" or "check on pr 123" runs Babysit. It drives the PR to merge-ready and stops there. "babysit this pr and merge when green" runs its `merge` mode, which merges once the PR is green.
 - "land the stack" runs Shipping.
 - "take over this branch" runs Session pickup.
 - "pause safely" runs Pause safely.

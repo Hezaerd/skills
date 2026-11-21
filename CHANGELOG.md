@@ -4,6 +4,10 @@
 
 hstack now mirrors pstack 0.15.46 ([cursor/plugins@0b46ec3](https://github.com/cursor/plugins/commit/0b46ec3)), rewritten for T3 Code on Claude Code and Codex.
 
+### hstack only
+
+- The Babysit playbook has a `merge` mode. "Babysit this PR and merge when green" now merges on the watcher's `READY` verdict, pinned to that head, and reads the PR back to confirm. Before, Babysit said it never authorizes merging, so agents stopped at green and wrote a report. `drive` still stops at merge-ready.
+
 ### Since pstack 0.15.36
 
 - Skill texts are much shorter. `hez-mode` drops from 151 lines to 111: its trigger list is eleven short lines, Writing the reply is one paragraph, and the Comments section is gone. 14 `principle-*` skills, `unslop` and `technical-writing` keep each rule in a shorter body, and `unslop` keeps its rule numbers.

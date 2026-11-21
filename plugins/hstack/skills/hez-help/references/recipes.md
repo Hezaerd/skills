@@ -37,7 +37,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 - `/hstack:create-formal-verification-skill prove <property> holds in <module>, even when <steps> interleave or retry.` After merges or refactors in that code: `/hstack:maintain-formal-verification-skill`.
 - `/hstack:swarm check every package under <dir> against its check script. one worker per package. one report.`
 - `/hstack:hez-mode open the pr. small ordered commits, evidence in the description.`
-- `/hstack:hez-mode babysit this pr. get it green.` For status only: `/hstack:hez-mode check on pr <number>. anything outstanding?`
+- `/hstack:hez-mode babysit this pr. get it green.` To land it too: `/hstack:hez-mode babysit pr <number> and merge when green.` For status only: `/hstack:hez-mode check on pr <number>. anything outstanding?`
 - `/hstack:hez-mode land the stack.`
 
 ## Away and back
