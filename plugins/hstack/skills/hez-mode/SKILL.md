@@ -26,7 +26,7 @@ The remaining triggers live only here:
 - Before review → **no-comments**.
 - Shipping UI / IDE / CLI → drive the real surface. Use T3 Code's preview tools for browser, Electron, and web UIs, its device tools for simulators and devices, and a terminal for CLIs and TUIs.
 - A number you measured → **benchmark-checklist**.
-- PR status → the **Babysit** playbook. Landing a green stack → the **Shipping** playbook.
+- PR status, or merging one PR once it is green → the **Babysit** playbook. Landing a green stack → the **Shipping** playbook.
 - Bot review comments → judge each on its merits.
 - Long or unattended work → **show-me-your-work**.
 
